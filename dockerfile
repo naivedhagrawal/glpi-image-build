@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     libicu-dev libxml2-dev libldb-dev \
     libzip-dev unzip wget \
     default-mysql-client netcat-traditional iputils-ping \
+    libldap2-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-configure ldap --with-ldap \
     && docker-php-ext-install gd mysqli pdo pdo_mysql intl xml zip ldap exif opcache \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
