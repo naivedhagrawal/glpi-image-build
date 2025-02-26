@@ -18,16 +18,20 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and extract GLPI
-RUN wget -qO /tmp/glpi.tgz "https://github.com/glpi-project/glpi/releases/download/${GLPI_VERSION}/glpi-${GLPI_VERSION}.tgz" \
-    && tar -xzf /tmp/glpi.tgz -C /var/www/html \
+RUN wget -qO- "https://github.com/glpi-project/glpi/releases/download/${GLPI_VERSION}/glpi-${GLPI_VERSION}.tgz" | tar -xz -C /var/www/html \
+    && mv /var/www/html/glpi-${GLPI_VERSION} ${GLPI_PATH} \
     && chown -R www-data:www-data ${GLPI_PATH} \
-    && chmod -R 755 ${GLPI_PATH} \
-    && rm -f /tmp/glpi.tgz
+    && chmod -R 755 ${GLPI_PATH}
 
 # Ensure missing directories and config_db.php exist
 RUN mkdir -p ${GLPI_PATH}/config ${GLPI_PATH}/files \
     && touch ${GLPI_PATH}/config/config_db.php \
     && chown -R www-data:www-data ${GLPI_PATH}/config ${GLPI_PATH}/files ${GLPI_PATH}/config/config_db.php
+
+# Set Apache configuration to allow external access
+RUN echo "<Directory /var/www/html/glpi>\n    Require all granted\n</Directory>" > /etc/apache2/conf-available/glpi.conf \
+    && a2enconf glpi \
+    && service apache2 restart
 
 # Set ServerName to suppress warnings
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
