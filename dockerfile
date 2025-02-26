@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev \
     libicu-dev libxml2-dev libldb-dev \
     libzip-dev unzip wget \
-    mysql-client netcat-traditional iputils-ping \
+    default-mysql-client netcat-traditional iputils-ping \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd mysqli pdo pdo_mysql intl xml zip ldap exif opcache \
     && a2enmod rewrite \
