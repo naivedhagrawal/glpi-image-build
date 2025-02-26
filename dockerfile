@@ -31,8 +31,8 @@ RUN mkdir -p ${GLPI_PATH}/config ${GLPI_PATH}/files \
     && chown -R www-data:www-data ${GLPI_PATH}/config ${GLPI_PATH}/files ${GLPI_PATH}/config/config_db.php
 
 # Set Apache configuration to allow external access
-RUN echo "<Directory /var/www/html/glpi>\n    Require all granted\n</Directory>" > /etc/apache2/conf-available/glpi.conf \
-    && a2enconf glpi \
+RUN echo "<Directory /var/www/html/glpi>\n    DirectoryIndex index.php\n    Require all granted\n</Directory>" > /etc/apache2/conf-available/glpi.conf \
+    && a2enconf glpi
 
 # Set ServerName to suppress warnings
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
