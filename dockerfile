@@ -33,7 +33,6 @@ RUN mkdir -p ${GLPI_PATH}/config ${GLPI_PATH}/files \
 # Set Apache configuration to allow external access
 RUN echo "<Directory /var/www/html/glpi>\n    Require all granted\n</Directory>" > /etc/apache2/conf-available/glpi.conf \
     && a2enconf glpi \
-    && service apache2 restart
 
 # Set ServerName to suppress warnings
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
