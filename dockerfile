@@ -19,7 +19,8 @@ RUN apt-get update && apt-get install -y \
 
 # Download and extract GLPI
 RUN wget -qO /tmp/glpi.tgz "https://github.com/glpi-project/glpi/releases/download/${GLPI_VERSION}/glpi-${GLPI_VERSION}.tgz" \
-    && tar -xzf /tmp/glpi.tgz -C /var/www/html \
+    && tar -xzf /tmp/glpi.tgz -C /tmp \
+    && mv /tmp/glpi /var/www/html/ \
     && chown -R www-data:www-data ${GLPI_PATH} \
     && chmod -R 755 ${GLPI_PATH} \
     && rm -f /tmp/glpi.tgz
