@@ -27,6 +27,9 @@ RUN wget -qO- "https://github.com/glpi-project/glpi/releases/download/${GLPI_VER
     && chown -R www-data:www-data ${GLPI_PATH} \
     && chmod -R 755 ${GLPI_PATH}
 
+# Set ServerName to suppress warnings
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Expose port 80
 EXPOSE 80
 
